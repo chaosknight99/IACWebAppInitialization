@@ -29,13 +29,6 @@ jobs:
         creds: ${{ secrets.AZURE_CREDENTIALS }}
 
       # Deploy ARM template
-    - name: Run ARM deploy
-      uses: azure/arm-deploy@v1
-      with:
-        subscriptionId: ${{ secrets.AZURE_SUBSCRIPTION }}
-        resourceGroupName: ${{ secrets.AZURE_RG }}
-        template: ./azuredeploy.json
-        parameters: storageAccountType=Standard_LRS
-
-      # output containerName variable from template
-    - run: echo ${{ steps.deploy.outputs.containerName }}
+    - name: Create Resource Group
+      run: |
+        az group create --name rg-sai-test1 --location eastus
