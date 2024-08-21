@@ -11,10 +11,19 @@ on:
       - dev
       - nonprd
       - prd
+    user:
+     description: 'who the user running this deployment'
+     required: true
+     type: choice
+     options:
+      - shilpa
+      - sai
+      - bujji
 
 jobs:
 
   deploy:
+    name: ${{ github.event.inputs.user }}
     runs-on: ubuntu-latest
 
     steps:
