@@ -17,6 +17,7 @@ jobs:
       run: echo "Hello, World!"
 
   deploy-in-dev:
+    needs: deploy 
     runs-on: ubuntu-latest
     
     steps:
@@ -34,6 +35,7 @@ jobs:
         az group create --name rg-dev --location eastus
 
   deploy-in-nonprd:
+    needs: deploy-in-dev
     runs-on: ubuntu-latest
     
     steps:
@@ -51,6 +53,7 @@ jobs:
         az group create --name rg-nonprd --location eastus
 
   deploy-in-prd:
+    needs: deploy-in-nonprd
     runs-on: ubuntu-latest
     
     steps:
