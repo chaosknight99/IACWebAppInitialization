@@ -2,6 +2,15 @@ name: Basic workflow
 
 on:
   workflow_dispatch:
+   inputs:
+    environment:
+     description: 'Which env you like to dev,nonprd,prd'
+     required: true
+     type: choice
+     options:
+      - dev
+      - nonprd
+      - prd
 
 jobs:
 
@@ -17,7 +26,8 @@ jobs:
       run: echo "Hello, World!"
 
   deploy-in-dev:
-    needs: deploy 
+    if: ${{ github.event.inputs.environment == 'dev' }}
+    # needs: deploy 
     runs-on: ubuntu-latest
     
     steps:
@@ -35,7 +45,8 @@ jobs:
         az group create --name rg-dev --location eastus
 
   deploy-in-nonprd:
-    needs: deploy-in-dev
+    if: ${{ github.event.inputs.environment == 'nonprd' }}
+    # needs: deploy-in-dev
     runs-on: ubuntu-latest
     
     steps:
@@ -53,7 +64,8 @@ jobs:
         az group create --name rg-nonprd --location eastus
 
   deploy-in-prd:
-    needs: deploy-in-nonprd
+    if: ${{ github.event.inputs.environment == 'prd' }}
+    # needs: deploy-in-nonprd
     runs-on: ubuntu-latest
     
     steps:
