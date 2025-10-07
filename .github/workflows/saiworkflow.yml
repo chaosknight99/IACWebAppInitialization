@@ -1,0 +1,92 @@
+name: Basic workflow
+
+on:
+  workflow_dispatch:
+   inputs:
+    environment:
+     description: 'Which env you like to dev,nonprd,prd'
+     required: true
+     type: choice
+     options:
+      - dev
+      - nonprd
+      - prd
+    user:
+     description: 'who the user running this deployment'
+     required: true
+     type: choice
+     options:
+      - shilpa
+      - sai
+      - bujji
+
+jobs:
+
+  deploy:
+    name: ${{ github.event.inputs.user }}
+    runs-on: ubuntu-latest
+
+    steps:
+
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Display Hello World
+      run: echo "Hello, World!"
+
+  deploy-in-dev:
+    if: ${{ github.event.inputs.environment == 'dev' }}
+    # needs: deploy 
+    runs-on: ubuntu-latest
+    
+    steps:
+      # Checkout code
+    - uses: actions/checkout@main
+
+      # Log into Azure
+    - uses: azure/login@v1
+      with:
+        creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+      # Deploy ARM template
+    - name: Create Resource Group
+      run: |
+        az group create --name rg-dev --location eastus
+
+  deploy-in-nonprd:
+    if: ${{ github.event.inputs.environment == 'nonprd' }}
+    # needs: deploy-in-dev
+    runs-on: ubuntu-latest
+    
+    steps:
+      # Checkout code
+    - uses: actions/checkout@main
+
+      # Log into Azure
+    - uses: azure/login@v1
+      with:
+        creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+      # Deploy ARM template
+    - name: Create Resource Group
+      run: |
+        az group create --name rg-nonprd --location eastus
+
+  deploy-in-prd:
+    if: ${{ github.event.inputs.environment == 'prd' }}
+    # needs: deploy-in-nonprd
+    runs-on: ubuntu-latest
+    
+    steps:
+      # Checkout code
+    - uses: actions/checkout@main
+
+      # Log into Azure
+    - uses: azure/login@v1
+      with:
+        creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+      # Deploy ARM template
+    - name: Create Resource Group
+      run: |
+        az group create --name rg-prd --location eastus
