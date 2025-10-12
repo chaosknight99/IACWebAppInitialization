@@ -1,7 +1,8 @@
-> **Note:** See [Approval Process](#reference-approval-process) for required steps.
+>
 
-```
-mermaid
+**Note:** See [Approval Process](#reference-approval-process) for required steps.
+
+```mermaid
 flowchart LR
     Start([Request]):::requestor
     Clone[Clone repo]:::requestor
@@ -27,6 +28,7 @@ Existing?}:::decision
     Deploy[Deploy]:::automation
     Done([Done]):::automation
     UpdChg[Re-edit]:::requestor
+
     %% Connections
     Start --> Clone --> Branch --> D1
     D1 -->|New| NewFldr --> NewFile --> Tmpl --> UpdNew --> PR
@@ -34,6 +36,7 @@ Existing?}:::decision
     PR --> Checks --> Share --> Valid --> D2
     D2 -->|Yes| Approve --> Merge --> Deploy --> Done
     D2 -->|No| UpdChg --> PR
+
     %% Styles
     classDef requestor fill:#e3f2fd,stroke:#90caf9,color:#1565c0
     classDef reliability fill:#fff3e0,stroke:#ffb74d,color:#e65100
