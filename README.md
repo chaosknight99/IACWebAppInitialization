@@ -1,4 +1,7 @@
-```mermaid
+> **Note:** See [Approval Process](#reference-approval-process) for required steps.
+
+```
+mermaid
 flowchart LR
     Start([Request]):::requestor
     Clone[Clone repo]:::requestor
@@ -12,12 +15,14 @@ Existing?}:::decision
     UpdNew[Update]:::requestor
     FindFile[Find YAML]:::requestor
     Chg[Edit]:::requestor
-    PR["PR<br/>[see approval process](#reference-approval-process)"]:::requestor
+    PR["PR
+[see approval process](#reference-approval-process)"]:::requestor
     Checks[Checks]:::automation
     Share[Share PR]:::requestor
     Valid[Validate]:::reliability
     D2{OK?}:::decision
-    Approve["2 Approvals<br/>[see approval process](#reference-approval-process)"]:::reliability
+    Approve["2 Approvals
+[see details](#reference-approval-process)"]:::reliability
     Merge[Merge]:::reliability
     Deploy[Deploy]:::automation
     Done([Done]):::automation
